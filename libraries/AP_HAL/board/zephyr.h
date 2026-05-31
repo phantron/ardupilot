@@ -49,6 +49,14 @@
 #endif
 
 /*
+ * Zephyr sys/util.h defines ARRAY_SIZE; AP_Common.h redefines it identically.
+ * Undefine here so AP_Common.h wins without emitting a redefinition warning.
+ */
+#ifdef ARRAY_SIZE
+#undef ARRAY_SIZE
+#endif
+
+/*
  * The PSoC device header (pulled in by <zephyr/kernel.h> above) defines
  * GPIO as a peripheral pointer macro.  Un-define it so that the subsequent
  * AP_HAL/GPIO.h class declaration compiles cleanly.

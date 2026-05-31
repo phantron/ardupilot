@@ -34,8 +34,25 @@
 #define HAL_OS_POSIX_IO            0
 #define HAL_OS_SOCKETS             0
 
+/*
+ * Disable ArduPilot scripting subsystem — Zephyr has no Lua-capable
+ * filesystem and no malloc.  Must be defined before AP_Scripting_config.h
+ * is reached (pulled in transitively via UARTDriver.h → GCS_config.h →
+ * AP_RangeFinder_config.h → AP_Scripting_config.h).
+ */
+#define AP_SCRIPTING_ENABLED       0
+
 #ifdef __cplusplus
 #include <AP_HAL_Zephyr/Semaphore.h>
 #define HAL_Semaphore              Zephyr::Semaphore
 #define HAL_BinarySemaphore        Zephyr::BinarySemaphore
+#endif
+
+/*
+ * The PSoC device header (pulled in by <zephyr/kernel.h> above) defines
+ * GPIO as a peripheral pointer macro.  Un-define it so that the subsequent
+ * AP_HAL/GPIO.h class declaration compiles cleanly.
+ */
+#ifdef GPIO
+#undef GPIO
 #endif

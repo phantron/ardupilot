@@ -105,7 +105,9 @@
 #define LOWBYTE(i) ((uint8_t)(i))
 #define HIGHBYTE(i) ((uint8_t)(((uint16_t)(i))>>8))
 
+#ifndef ARRAY_SIZE
 #define ARRAY_SIZE(_arr) (sizeof(_arr) / sizeof(_arr[0]))
+#endif
 
 #define UINT16_VALUE(hbyte, lbyte) (static_cast<uint16_t>(((hbyte)<<8)|(lbyte)))
 #define UINT32_VALUE(b3, b2, b1, b0) (static_cast<uint32_t>(((b3)<<24)|((b2)<<16)|((b1)<<8)|(b0)))

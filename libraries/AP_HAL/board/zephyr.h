@@ -50,11 +50,15 @@
 
 /*
  * Zephyr sys/util.h defines ARRAY_SIZE; AP_Common.h redefines it identically.
- * Undefine here so AP_Common.h wins without emitting a redefinition warning.
+ * Undefine here so the definition below (or AP_Common.h's) is used without a
+ * redefinition warning.  We must also provide the definition here because
+ * AP_HAL/HAL.h (included via AP_HAL_Main.h) uses ARRAY_SIZE before
+ * AP_Common.h has been included.
  */
 #ifdef ARRAY_SIZE
 #undef ARRAY_SIZE
 #endif
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
 /*
  * The PSoC device header (pulled in by <zephyr/kernel.h> above) defines

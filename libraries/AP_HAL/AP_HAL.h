@@ -2,8 +2,11 @@
 
 #include <stdint.h>
 
-#include "AP_HAL_Namespace.h"
+/* AP_HAL_Boards.h must precede AP_HAL_Namespace.h so that board-specific
+ * headers (e.g. board/zephyr.h) can #undef platform register macros (GPIO,
+ * etc.) before AP_HAL_Namespace.h forward-declares class GPIO. */
 #include "AP_HAL_Boards.h"
+#include "AP_HAL_Namespace.h"
 #include "AP_HAL_Macros.h"
 #include "AP_HAL_Main.h"
 

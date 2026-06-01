@@ -3,6 +3,15 @@
 #include "string.h"
 #include "utility/functor.h"
 
+/* Some embedded BSP headers define GPIO as a memory-mapped peripheral
+ * pointer macro (e.g. Infineon PSoC pse846gps2dbzc4a.h:
+ *   #define GPIO ((GPIO_Type*) GPIO_BASE)
+ * This clashes with 'class GPIO' below regardless of include order.
+ * Un-define it here so the declaration always compiles cleanly. */
+#ifdef GPIO
+#undef GPIO
+#endif
+
 namespace AP_HAL {
 
     /* Toplevel pure virtual class Hal.*/

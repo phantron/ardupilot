@@ -2,10 +2,18 @@
 
 #include <stdint.h>
 
-/* AP_HAL_Boards.h must precede AP_HAL_Namespace.h so that board-specific
- * headers (e.g. board/zephyr.h) can #undef platform register macros (GPIO,
- * etc.) before AP_HAL_Namespace.h forward-declares class GPIO. */
 #include "AP_HAL_Boards.h"
+
+/* Some embedded BSP headers define GPIO as a memory-mapped peripheral
+ * pointer macro (e.g. Infineon PSoC pse846gps2dbzc4a.h:
+ *   #define GPIO ((GPIO_Type*) GPIO_BASE)
+ * This collides with 'class GPIO' in AP_HAL_Namespace.h.  Un-define the
+ * macro here — after AP_HAL_Boards.h sets HAL_BOARD but before
+ * AP_HAL_Namespace.h forward-declares class GPIO. */
+#ifdef GPIO
+#undef GPIO
+#endif
+
 #include "AP_HAL_Namespace.h"
 #include "AP_HAL_Macros.h"
 #include "AP_HAL_Main.h"

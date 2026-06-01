@@ -106,7 +106,9 @@
 #define HIGHBYTE(i) ((uint8_t)(((uint16_t)(i))>>8))
 
 #ifndef ARRAY_SIZE
-#define ARRAY_SIZE(_arr) (sizeof(_arr) / sizeof(_arr[0]))
+/* Body kept identical to Zephyr sys/util.h so GCC accepts the later
+ * redefinition in util.h without a -Wmacro-redefined diagnostic. */
+#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
 #endif
 
 #define UINT16_VALUE(hbyte, lbyte) (static_cast<uint16_t>(((hbyte)<<8)|(lbyte)))

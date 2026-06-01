@@ -48,17 +48,14 @@
 #define HAL_BinarySemaphore        Zephyr::BinarySemaphore
 #endif
 
-/*
- * Zephyr sys/util.h defines ARRAY_SIZE; AP_Common.h redefines it identically.
- * Undefine here so the definition below (or AP_Common.h's) is used without a
- * redefinition warning.  We must also provide the definition here because
- * AP_HAL/HAL.h (included via AP_HAL_Main.h) uses ARRAY_SIZE before
- * AP_Common.h has been included.
- */
+/* Ensure ARRAY_SIZE is defined before AP_HAL_Namespace.h is processed.
+ * The body is kept byte-for-byte identical to Zephyr sys/util.h so that
+ * the later redefinition in util.h (pulled in via kernel.h) does not
+ * generate a -Wmacro-redefined diagnostic. */
 #ifdef ARRAY_SIZE
 #undef ARRAY_SIZE
 #endif
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
 
 /*
  * The PSoC device header (pulled in by <zephyr/kernel.h> above) defines
